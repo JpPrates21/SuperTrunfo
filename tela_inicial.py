@@ -3,8 +3,13 @@ import sys
 from regras import mostrar_tela_regras
 
 def mostrar_tela_inicial(tela):
-    # Carregar a imagem de fundo (sem redimensionar)
-    background = pygame.image.load("SuperTrunfo/imagens/tela_inicial.png").convert()
+    # Inicializa o mixer para sons
+    pygame.mixer.init()
+    som_clique = pygame.mixer.Sound("SuperTrunfo/audios/SomClick.wav")
+    som_clique.set_volume(0.4)
+
+    # Carregar a imagem do céu para o fundo animado (deve ser larga)
+    ceu = pygame.image.load("SuperTrunfo/imagens/tela_inicial.png").convert()
 
     # Criar botões
     botao_iniciar = pygame.Rect(540, 400, 200, 60)
@@ -18,9 +23,40 @@ def mostrar_tela_inicial(tela):
     fonte_titulo = pygame.font.Font("SuperTrunfo/fontes/Pixelscapes.ttf", 80)
     texto_titulo = fonte_titulo.render("SUPERTRUNFO", True, (255, 255, 255))
 
+    # Variáveis para controle do fundo animado
+    x1 = 0
+    x2 = ceu.get_width()
+    velocidade = 2  # Ajuste a velocidade do movimento do céu
+
+    clock = pygame.time.Clock()
+
     while True:
-        tela.blit(background, (0, 0))  # Desenha o fundo
-        
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif evento.type == pygame.MOUSEBUTTONDOWN:
+                if botao_regras.collidepoint(evento.pos):
+                    som_clique.play()
+                    mostrar_tela_regras(tela)
+                elif botao_iniciar.collidepoint(evento.pos):
+                    som_clique.play()
+                    print("Aqui você pode chamar a tela de dificuldade")
+
+        # Movimento do fundo animado
+        x1 -= velocidade
+        x2 -= velocidade
+
+        # Reinicia posição quando sai da tela para o efeito loop
+        if x1 <= -ceu.get_width():
+            x1 = x2 + ceu.get_width()
+        if x2 <= -ceu.get_width():
+            x2 = x1 + ceu.get_width()
+
+        # Desenha o fundo animado
+        tela.blit(ceu, (x1, 0))
+        tela.blit(ceu, (x2, 0))
+
         # Centraliza o texto no topo da tela
         tela.blit(texto_titulo, (tela.get_width() // 2 - texto_titulo.get_width() // 2, 50))
 
@@ -40,14 +76,5 @@ def mostrar_tela_inicial(tela):
         tela.blit(texto_regras, (botao_regras.centerx - texto_regras.get_width() // 2,
                                  botao_regras.centery - texto_regras.get_height() // 2))
 
-        for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif evento.type == pygame.MOUSEBUTTONDOWN:
-                if botao_regras.collidepoint(evento.pos):
-                    mostrar_tela_regras(tela)
-                elif botao_iniciar.collidepoint(evento.pos):
-                    print("Aqui você pode chamar a tela de dificuldade")
-
         pygame.display.update()
+        clock.tick(60)  # FPS

@@ -2,14 +2,20 @@ import pygame
 import sys
 
 def mostrar_tela_regras(tela):
+    pygame.mixer.init()
+
+    #Som Clique
+    som_clique = pygame.mixer.Sound("SuperTrunfo/audios/SomClick.wav")
+    som_clique.set_volume(0.4)  
+
     # Cores
     BRANCO = (255, 255, 255)
     AZUL = (0, 100, 255)
     AZUL_CLARO = (100, 180, 255)
     AZUL_ESCURO = (0, 0, 128)
 
-    # Carregar fundo 
-    background = pygame.image.load("SuperTrunfo/imagens/tela_inicial.png").convert()
+    # Carregar fundo animado (imagem do céu)
+    ceu = pygame.image.load("SuperTrunfo/imagens/tela_inicial.png").convert()
 
     # Fontes personalizadas
     fonte_titulo = pygame.font.Font("SuperTrunfo/fontes/Pixelscapes.ttf", 80)
@@ -31,8 +37,37 @@ def mostrar_tela_regras(tela):
     # Botão voltar
     botao_voltar = pygame.Rect(540, 600, 200, 50)
 
+    # Variáveis para controle do fundo animado
+    x1 = 0
+    x2 = ceu.get_width()
+    velocidade = 2  # Ajuste a velocidade do movimento do céu
+
+    clock = pygame.time.Clock()
+
     while True:
-        tela.blit(background, (0, 0))
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif evento.type == pygame.MOUSEBUTTONDOWN:
+                if botao_voltar.collidepoint(evento.pos):
+                    som_clique.play()
+                    return  # Volta para a tela inicial
+
+        # Movimento do fundo animado
+        x1 -= velocidade
+        x2 -= velocidade
+
+        # Reinicia posição para loop contínuo
+        if x1 <= -ceu.get_width():
+            x1 = x2 + ceu.get_width()
+        if x2 <= -ceu.get_width():
+            x2 = x1 + ceu.get_width()
+
+        # Desenha fundo animado
+        tela.blit(ceu, (x1, 0))
+        tela.blit(ceu, (x2, 0))
+
         mouse_pos = pygame.mouse.get_pos()
 
         # Desenhar título
@@ -49,12 +84,5 @@ def mostrar_tela_regras(tela):
         texto_botao = fonte_texto.render("VOLTAR", True, BRANCO)
         tela.blit(texto_botao, (botao_voltar.x + 43, botao_voltar.y + 10))
 
-        for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif evento.type == pygame.MOUSEBUTTONDOWN:
-                if botao_voltar.collidepoint(evento.pos):
-                    return  # Volta para a tela inicial
-
         pygame.display.update()
+        clock.tick(60)  # FPS
