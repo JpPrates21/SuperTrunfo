@@ -6,13 +6,14 @@ def mostrar_tela_regras(tela):
     BRANCO = (255, 255, 255)
     AZUL = (0, 100, 255)
     AZUL_CLARO = (100, 180, 255)
+    AZUL_ESCURO = (0, 0, 128)
 
-    # Carregar fundo (sem redimensionar)
+    # Carregar fundo 
     background = pygame.image.load("SuperTrunfo/imagens/tela_inicial.png").convert()
 
-    # Fontes
-    fonte_titulo = pygame.font.Font(None, 60)
-    fonte_texto = pygame.font.Font(None, 32)
+    # Fontes personalizadas
+    fonte_titulo = pygame.font.Font("SuperTrunfo/fontes/Pixelscapes.ttf", 80)
+    fonte_texto = pygame.font.Font("SuperTrunfo/fontes/Pixelon.otf", 32)
 
     # Texto do título
     texto_titulo = fonte_titulo.render("REGRAS DO JOGO", True, BRANCO)
@@ -30,7 +31,6 @@ def mostrar_tela_regras(tela):
     # Botão voltar
     botao_voltar = pygame.Rect(540, 600, 200, 50)
 
-    # Loop da tela
     while True:
         tela.blit(background, (0, 0))
         mouse_pos = pygame.mouse.get_pos()
@@ -41,15 +41,14 @@ def mostrar_tela_regras(tela):
         # Desenhar regras
         for i, linha in enumerate(regras):
             texto = fonte_texto.render(linha, True, BRANCO)
-            tela.blit(texto, (100, 150 + i * 40))
+            tela.blit(texto, (100, 200 + i * 40))
 
         # Desenhar botão com hover
-        cor_botao = AZUL_CLARO if botao_voltar.collidepoint(mouse_pos) else AZUL
+        cor_botao = AZUL_CLARO if botao_voltar.collidepoint(mouse_pos) else AZUL_ESCURO
         pygame.draw.rect(tela, cor_botao, botao_voltar)
         texto_botao = fonte_texto.render("VOLTAR", True, BRANCO)
-        tela.blit(texto_botao, (botao_voltar.x + 50, botao_voltar.y + 10))
+        tela.blit(texto_botao, (botao_voltar.x + 43, botao_voltar.y + 10))
 
-        # Eventos
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 pygame.quit()
