@@ -5,7 +5,7 @@ def mostrar_tela_regras(tela):
     pygame.mixer.init()
 
     #Som Clique
-    som_clique = pygame.mixer.Sound("SuperTrunfo/audios/SomClick.wav")
+    som_clique = pygame.mixer.Sound("audios/SomClick.wav")
     som_clique.set_volume(0.4)  
 
     # Cores
@@ -15,11 +15,11 @@ def mostrar_tela_regras(tela):
     AZUL_ESCURO = (0, 0, 128)
 
     # Carregar fundo animado (imagem do céu)
-    ceu = pygame.image.load("SuperTrunfo/imagens/tela_inicial.png").convert()
+    ceu = pygame.image.load("imagens/tela_inicial.png").convert()
 
     # Fontes personalizadas
-    fonte_titulo = pygame.font.Font("SuperTrunfo/fontes/Pixelscapes.ttf", 80)
-    fonte_texto = pygame.font.Font("SuperTrunfo/fontes/Pixelon.otf", 32)
+    fonte_titulo = pygame.font.Font("fontes/Pixelscapes.ttf", 80)
+    fonte_texto = pygame.font.Font("fontes/Pixelon.otf", 32)
 
     # Texto do título
     texto_titulo = fonte_titulo.render("REGRAS DO JOGO", True, BRANCO)
