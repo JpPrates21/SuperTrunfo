@@ -1,6 +1,7 @@
 import pygame
 import sys
 from regras import mostrar_tela_regras
+from tela_dificuldade import mostrar_tela_dificuldade
 
 def mostrar_tela_inicial(tela):
     # Inicializa o mixer para sons
@@ -41,7 +42,7 @@ def mostrar_tela_inicial(tela):
                     mostrar_tela_regras(tela)
                 elif botao_iniciar.collidepoint(evento.pos):
                     som_clique.play()
-                    print("Aqui você pode chamar a tela de dificuldade")
+                    mostrar_tela_dificuldade(tela)
 
         # Movimento do fundo animado
         x1 -= velocidade
