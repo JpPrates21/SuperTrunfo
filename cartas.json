@@ -1,0 +1,162 @@
+[
+  {
+    "nome": "Fusca",
+    "classe": "Super Trunfo",
+    "velocidade": 99,
+    "potencia": 99,
+    "economia": 99,
+    "frenagem": 99
+  },
+  {
+    "nome": "Falcão Veloz",
+    "classe": "A",
+    "velocidade": 95,
+    "potencia": 90,
+    "economia": 60,
+    "frenagem": 80
+  },
+  {
+    "nome": "Titã Turbo",
+    "classe": "A",
+    "velocidade": 92,
+    "potencia": 93,
+    "economia": 55,
+    "frenagem": 78
+  },
+  {
+    "nome": "Relâmpago X",
+    "classe": "A",
+    "velocidade": 98,
+    "potencia": 95,
+    "economia": 50,
+    "frenagem": 75
+  },
+  {
+    "nome": "Tempestade",
+    "classe": "A",
+    "velocidade": 90,
+    "potencia": 88,
+    "economia": 58,
+    "frenagem": 82
+  },
+  {
+    "nome": "Eco Runner",
+    "classe": "B",
+    "velocidade": 72,
+    "potencia": 60,
+    "economia": 98,
+    "frenagem": 82
+  },
+  {
+    "nome": "Vortex V2",
+    "classe": "B",
+    "velocidade": 85,
+    "potencia": 82,
+    "economia": 75,
+    "frenagem": 70
+  },
+  {
+    "nome": "Trovão Azul",
+    "classe": "B",
+    "velocidade": 84,
+    "potencia": 80,
+    "economia": 66,
+    "frenagem": 72
+  },
+  {
+    "nome": "Shadow GT",
+    "classe": "B",
+    "velocidade": 87,
+    "potencia": 83,
+    "economia": 63,
+    "frenagem": 74
+  },
+  {
+    "nome": "Ciclone Z",
+    "classe": "B",
+    "velocidade": 82,
+    "potencia": 78,
+    "economia": 72,
+    "frenagem": 80
+  },
+  {
+    "nome": "Inferno R",
+    "classe": "C",
+    "velocidade": 90,
+    "potencia": 89,
+    "economia": 40,
+    "frenagem": 60
+  },
+  {
+    "nome": "Neon Speed",
+    "classe": "C",
+    "velocidade": 80,
+    "potencia": 75,
+    "economia": 65,
+    "frenagem": 68
+  },
+  {
+    "nome": "Corcel Turbo",
+    "classe": "C",
+    "velocidade": 78,
+    "potencia": 72,
+    "economia": 70,
+    "frenagem": 65
+  },
+  {
+    "nome": "Raio Urbano",
+    "classe": "C",
+    "velocidade": 79,
+    "potencia": 70,
+    "economia": 74,
+    "frenagem": 67
+  },
+  {
+    "nome": "Asfalto Veloz",
+    "classe": "C",
+    "velocidade": 81,
+    "potencia": 73,
+    "economia": 60,
+    "frenagem": 66
+  },
+  {
+    "nome": "Trator-X",
+    "classe": "D",
+    "velocidade": 50,
+    "potencia": 65,
+    "economia": 55,
+    "frenagem": 40
+  },
+  {
+    "nome": "Camaleão 4x4",
+    "classe": "D",
+    "velocidade": 58,
+    "potencia": 68,
+    "economia": 60,
+    "frenagem": 45
+  },
+  {
+    "nome": "Mini Van Z",
+    "classe": "D",
+    "velocidade": 55,
+    "potencia": 60,
+    "economia": 65,
+    "frenagem": 50
+  },
+  {
+    "nome": "Carga Pesada",
+    "classe": "D",
+    "velocidade": 45,
+    "potencia": 70,
+    "economia": 48,
+    "frenagem": 38
+  },
+  {
+    "nome": "Moto Urbana",
+    "classe": "D",
+    "velocidade": 62,
+    "potencia": 58,
+    "economia": 68,
+    "frenagem": 55
+  }
+]
