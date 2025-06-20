@@ -79,19 +79,21 @@ def mostrar_tela_jogo(tela, jogo):
     while True:
         tela.fill((30, 30, 30))
 
+        # Checa se acabou o jogo
         if len(jogo.jogador.cartas) == 0 or len(jogo.cpu.cartas) == 0:
             vencedor = "Você venceu o jogo!" if len(jogo.jogador.cartas) > len(jogo.cpu.cartas) else "CPU venceu o jogo!"
             texto = fonte_titulo.render(vencedor, True, (255, 255, 0))
             tela.blit(texto, (tela.get_width() // 2 - texto.get_width() // 2, 200))
             pygame.display.update()
-            continue
+            pygame.time.delay(3000)
+            return  # Encerra a função e volta para a tela anterior
 
         desenhar_placar()
 
         carta_jogador = jogo.jogador.cartas[0]
 
         if mostrar_cpu:
-            # Mostra as duas cartas com destaque
+            # Mostra ambas cartas com destaque
             desenhar_carta(carta_jogador, 80, 100, destaque=True)
             carta_cpu = jogo.cpu.cartas[0]
             desenhar_carta(carta_cpu, 450, 100, destaque=True)
@@ -99,23 +101,22 @@ def mostrar_tela_jogo(tela, jogo):
             texto_resultado = fonte_titulo.render(resultado, True, (255, 255, 0))
             tela.blit(texto_resultado, (tela.get_width() // 2 - texto_resultado.get_width() // 2, 520))
 
-            # Aguarda 2 segundos antes de passar para próxima rodada
             if time.time() - tempo_resultado > 2:
-                # Agora manipula as cartas após mostrar resultado
                 if vencedor_rodada == "jogador":
                     jogo.jogador.cartas.append(jogo.cpu.cartas.pop(0))
                     jogo.jogador.cartas.append(jogo.jogador.cartas.pop(0))
                 elif vencedor_rodada == "cpu":
                     jogo.cpu.cartas.append(jogo.jogador.cartas.pop(0))
                     jogo.cpu.cartas.append(jogo.cpu.cartas.pop(0))
-                else:  # empate
+                else:
                     jogo.jogador.cartas.append(jogo.jogador.cartas.pop(0))
                     jogo.cpu.cartas.append(jogo.cpu.cartas.pop(0))
 
                 mostrar_cpu = False
                 resultado = ""
                 vencedor_rodada = None
-                botoes = desenhar_carta(jogo.jogador.cartas[0], 80, 100)
+                botoes = []
+
         else:
             botoes = desenhar_carta(carta_jogador, 80, 100)
 
