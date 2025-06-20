@@ -1,0 +1,161 @@
+\documentclass[a4paper, twocolumn]{article}
+
+% PACOTES BÁSICOS
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{abstract}
+\usepackage{times} % Usa a fonte Times New Roman, comum em templates acadêmicos
+
+% PACOTE PARA LISTAGEM DE CÓDIGO
+\usepackage{listings}
+\usepackage{xcolor}
+
+% CONFIGURAÇÕES DE LAYOUT (simulando o template)
+\geometry{
+    a4paper,
+    left=1.9cm,
+    right=1.9cm,
+    top=2.5cm,
+    bottom=2.5cm,
+    columnsep=0.6cm
+}
+\pagestyle{empty} % Remove a numeração de páginas
+
+% CONFIGURAÇÕES PARA AS LISTAGENS DE CÓDIGO (PYTHON)
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize\ttfamily,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% TÍTULO E AUTOR (formato customizado)
+\title{\textbf{Desenvolvimento de um Jogo Estilo Super Trunfo usando Python}}
+\author{
+  \textit{José Roberto Aguiar Brito, João Pedro Pinheiro Prates, Luís Filipe Milione} \\
+  Departamento de Ciência da Computação \\
+  Universidade Federal de Minas Gerais \\
+  Belo Horizonte, Brasil \\
+}
+\date{} % Remove a data
+
+\begin{document}
+
+% --- SEÇÃO DO TÍTULO ---
+\twocolumn[
+  \begin{@twocolumnfalse}
+    \maketitle
+    \begin{abstract}
+        \noindent Este artigo detalha o desenvolvimento de um jogo de cartas no estilo ``Super Trunfo'', utilizando a biblioteca Pygame para a linguagem Python. O projeto foi estruturado em componentes modulares que gerenciam a lógica do jogo, a interface com o usuário e a manipulação de dados. O documento aborda a arquitetura do sistema, a implementação das classes principais como \texttt{Carta}, \texttt{Jogador} e \texttt{Jogo}, o fluxo de telas (inicial, regras, dificuldade e jogo) e o carregamento dos atributos das cartas a partir de um banco de dados JSON externo. Adicionalmente, é explicado o sistema de dificuldade, que altera a quantidade de cartas distribuídas entre o jogador e a CPU para balancear o desafio.
+    \end{abstract}
+    \vspace{1em}
+    \noindent\textbf{\textit{Keywords—}}Pygame, Jogo de Cartas, Super Trunfo, Python, Desenvolvimento de Jogos
+    \vspace{2em}
+  \end{@twocolumnfalse}
+]
+
+% --- CORPO DO ARTIGO ---
+
+\section{Introdução}
+O jogo ``Super Trunfo'' é um clássico jogo de cartas onde os participantes competem com base nos atributos de seus respectivos cards. O objetivo deste projeto foi desenvolver uma versão digital deste jogo, utilizando a linguagem de programação Python e a biblioteca Pygame, amplamente conhecida para a criação de jogos 2D.
+
+O sistema foi projetado para ser modular, separando a lógica de negócios da interface gráfica, o que facilita a manutenção e a expansão do código. O jogo inclui uma tela inicial, um menu de regras, seleção de dificuldade e uma tela de jogo principal, oferecendo uma experiência básica e funcional ao usuário.
+
+\section{Arquitetura do Sistema}
+O projeto foi organizado em múltiplos arquivos para garantir a modularidade e a clareza do código. Cada arquivo possui uma responsabilidade específica dentro do sistema.
+
+\begin{itemize}
+    \item \textbf{main.py}: Ponto de entrada da aplicação. Responsável por inicializar o Pygame, configurar a janela principal, carregar a música de fundo e chamar a tela inicial do jogo.
+    
+    \item \textbf{tela\_inicial.py}: Implementa a primeira tela vista pelo usuário, com um fundo animado e botões para ``INICIAR'' o jogo ou visualizar as ``REGRAS''.
+    
+    \item \textbf{tela\_dificuldade.py}: Apresenta as opções de dificuldade (Fácil, Média, Difícil) e, com base na escolha, inicializa a lógica do jogo.
+    
+    \item \textbf{regras.py}: Exibe uma tela com as regras básicas do Super Trunfo e um botão para retornar ao menu principal.
+    
+    \item \textbf{jogo.py}: Contém o núcleo da lógica do jogo, incluindo as classes \texttt{Carta}, \texttt{Jogador} e \texttt{Jogo}, que gerenciam o estado da partida.
+    
+    \item \textbf{tela\_jogo.py}: Responsável por renderizar a interface da partida, exibindo a carta atual do jogador e os atributos para comparação.
+    
+    \item \textbf{cartas.json}: Arquivo de dados no formato JSON que armazena os atributos de todas as cartas do baralho, permitindo que os dados sejam gerenciados de forma independente do código fonte.
+\end{itemize}
+
+Os arquivos \texttt{carta.py}, \texttt{baralho.py} e \texttt{jogador.py} representam modelos de classes iniciais, cuja lógica foi centralizada e refinada posteriormente no arquivo \texttt{jogo.py} para maior coesão.
+
+\section{Implementação da Lógica do Jogo}
+A lógica central do Super Trunfo reside no arquivo \texttt{jogo.py}, que orquestra as principais mecânicas da partida.
+
+\subsection{Estrutura do Banco de Dados das Cartas}
+As cartas e seus respectivos atributos são carregados de um arquivo externo \texttt{cartas.json}. Cada carta é um objeto JSON com os seguintes campos: \texttt{nome}, \texttt{classe}, \texttt{velocidade}, \texttt{potencia}, \texttt{economia} e \texttt{frenagem}. Um exemplo notável é a carta "Fusca", designada como "Super Trunfo", que possui os valores máximos em todos os atributos.
+
+Essa abordagem permite modificar ou adicionar novas cartas ao baralho sem a necessidade de alterar o código Python. A classe \texttt{Carta}, definida em \texttt{jogo.py}, é usada para instanciar objetos no jogo a partir desses dados.
+
+\subsection{Classes Principais}
+A lógica do jogo é encapsulada em duas classes principais:
+
+\begin{itemize}
+    \item \textbf{Jogador}: Representa um participante no jogo (seja o usuário ou a CPU). Possui um nome e uma lista de cartas que compõem sua mão.
+    \item \textbf{Jogo}: É a classe central que gerencia o estado da partida. Ela é responsável por:
+    \begin{itemize}
+        \item Carregar o baralho a partir do arquivo \texttt{cartas.json}.
+        \item Distribuir as cartas entre o jogador e a CPU de acordo com a dificuldade selecionada.
+        \item Iniciar o fluxo da partida.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Mecânica de Dificuldade}
+A dificuldade do jogo é definida antes do início da partida e impacta diretamente a distribuição de cartas, conforme implementado no método \texttt{distribuir\_cartas} da classe \texttt{Jogo}. A distribuição é a seguinte:
+
+\begin{itemize}
+    \item \textbf{Fácil}: O jogador recebe 13 cartas e a CPU recebe 7.
+    \item \textbf{Média}: Ambos recebem 10 cartas.
+    \item \textbf{Difícil}: O jogador recebe 7 cartas e a CPU recebe 13.
+\end{itemize}
+As cartas são sorteadas aleatoriamente do baralho total disponível para cada partida.
+
+\section{Interface do Usuário com Pygame}
+A interface gráfica foi desenvolvida com a biblioteca Pygame, com cada tela sendo gerenciada por um módulo distinto.
+
+\subsection{Ponto de Entrada e Configuração Inicial}
+O arquivo \texttt{main.py} inicializa o Pygame, define as dimensões da tela (1280x720 pixels), carrega e reproduz uma música de fundo em loop e, por fim, invoca a função que exibe a tela inicial.
+
+\subsection{Telas de Navegação}
+A navegação do usuário ocorre através de três telas principais:
+\begin{itemize}
+    \item \textbf{Tela Inicial}: Renderizada por \texttt{tela\_inicial.py}, apresenta um fundo animado com uma imagem de céu em movimento contínuo. Dois botões permitem ao usuário iniciar o jogo ou consultar as regras. Efeitos de \textit{hover} (mudança de cor ao passar o mouse) e sons de clique foram implementados para melhorar a interatividade.
+    
+    \item \textbf{Tela de Dificuldade}: Chamada ao clicar em "INICIAR", esta tela permite que o jogador escolha entre três níveis de dificuldade. A escolha do jogador determina como as cartas serão distribuídas e inicia o objeto \texttt{Jogo} correspondente.
+    
+    \item \textbf{Tela de Regras}: Descreve de forma sucinta as regras do jogo e contém um botão "VOLTAR" para retornar à tela inicial.
+\end{itemize}
+
+\subsection{Tela Principal do Jogo}
+A função \texttt{mostrar\_tela\_jogo}, no arquivo \texttt{tela\_jogo.py}, é responsável por renderizar o estado atual da partida. Na implementação fornecida, ela exibe a primeira carta da mão do jogador com todos os seus atributos. Esta tela serve como base para a futura implementação da lógica de turnos, onde o jogador poderá escolher um atributo para competir contra a carta da CPU.
+
+\section{Conclusão}
+Aplicando os conhecimentos adquiridos na Matéria de Programação Orientada a Objeto, O projeto resultou na criação de uma base sólida  para um jogo de Super Trunfo utilizando Python e Pygame. A arquitetura modular adotada provou ser eficaz, separando claramente as responsabilidades entre a lógica do jogo e sua apresentação visual. Foi-se aplicado ao código, conceitos como Modularização, Encapsulamento, Herança e polimorfismo cobrindo assim todo conteúdo visto em sala. A implementação atual cobre com sucesso o ciclo inicial do jogo: menu, seleção de dificuldade, distribuição de cartas e exibição do estado inicial da partida.
+
+Como trabalhos futuros, a principal etapa é implementar o loop de jogabilidade na tela de jogo, permitindo que os jogadores selecionem atributos, comparem cartas e troquem-nas ao final de cada rodada. Adicionalmente, podem ser incluídas animações para as transições de cartas, uma tela de "Fim de Jogo" e um sistema de pontuação.
+
+\end{document}
