@@ -1,31 +1,134 @@
 import pygame
+import sys
+import time
 
 def mostrar_tela_jogo(tela, jogo):
-    carta_topo = jogo.jogador.cartas[0] if jogo.jogador.cartas else None
-    fonte = pygame.font.Font("fontes/Pixelon.otf", 30)
+    pygame.font.init()
+    fonte_titulo = pygame.font.Font(None, 60)
+    fonte_texto = pygame.font.Font(None, 36)
 
-    rodando = True
-    while rodando:
+    clock = pygame.time.Clock()
+
+    def desenhar_carta(carta, x, y, destaque=False):
+        cor_fundo = (255, 255, 255) if not destaque else (230, 255, 230)
+        pygame.draw.rect(tela, cor_fundo, (x, y, 300, 400))
+        pygame.draw.rect(tela, (0, 0, 0), (x, y, 300, 400), 4)
+
+        nome = fonte_titulo.render(carta.nome, True, (0, 0, 0))
+        classe = fonte_texto.render(f"Classe: {carta.classe}", True, (50, 50, 50))
+
+        tela.blit(nome, (x + 20, y + 20))
+        tela.blit(classe, (x + 20, y + 70))
+
+        atributos = {
+            "Velocidade": carta.velocidade,
+            "Potencia": carta.potencia,
+            "Economia": carta.economia,
+            "Frenagem": carta.frenagem
+        }
+
+        botoes = []
+        espacamento = 60
+        pos_y = y + 120
+
+        for chave, valor in atributos.items():
+            texto = fonte_texto.render(f"{chave}: {valor}", True, (0, 0, 0))
+            rect = pygame.Rect(x + 20, pos_y, 260, 40)
+            pygame.draw.rect(tela, (200, 200, 200), rect)
+            pygame.draw.rect(tela, (0, 0, 0), rect, 2)
+            tela.blit(texto, (x + 30, pos_y + 5))
+            botoes.append((rect, chave))
+            pos_y += espacamento
+
+        return botoes
+
+    def desenhar_placar():
+        texto = fonte_texto.render(
+            f"Cartas - Você: {len(jogo.jogador.cartas)}  |  CPU: {len(jogo.cpu.cartas)}",
+            True, (255, 255, 255)
+        )
+        tela.blit(texto, (tela.get_width() // 2 - texto.get_width() // 2, 20))
+
+    def comparar_atributo(attr):
+        carta_jogador = jogo.jogador.cartas[0]
+        carta_cpu = jogo.cpu.cartas[0]
+
+        attr_key = attr.lower().replace("ç", "c").replace("ã", "a").replace("é", "e").replace("í", "i")
+
+        valor_jogador = getattr(carta_jogador, attr_key)
+        valor_cpu = getattr(carta_cpu, attr_key)
+
+        if valor_jogador > valor_cpu:
+            vencedor = "jogador"
+            resultado = "Você venceu!"
+        elif valor_jogador < valor_cpu:
+            vencedor = "cpu"
+            resultado = "Você perdeu!"
+        else:
+            vencedor = "empate"
+            resultado = "Empate!"
+
+        return vencedor, resultado
+
+    mostrar_cpu = False
+    resultado = ""
+    tempo_resultado = 0
+    vencedor_rodada = None
+    botoes = []
+
+    while True:
+        tela.fill((30, 30, 30))
+
+        if len(jogo.jogador.cartas) == 0 or len(jogo.cpu.cartas) == 0:
+            vencedor = "Você venceu o jogo!" if len(jogo.jogador.cartas) > len(jogo.cpu.cartas) else "CPU venceu o jogo!"
+            texto = fonte_titulo.render(vencedor, True, (255, 255, 0))
+            tela.blit(texto, (tela.get_width() // 2 - texto.get_width() // 2, 200))
+            pygame.display.update()
+            continue
+
+        desenhar_placar()
+
+        carta_jogador = jogo.jogador.cartas[0]
+
+        if mostrar_cpu:
+            # Mostra as duas cartas com destaque
+            desenhar_carta(carta_jogador, 80, 100, destaque=True)
+            carta_cpu = jogo.cpu.cartas[0]
+            desenhar_carta(carta_cpu, 450, 100, destaque=True)
+
+            texto_resultado = fonte_titulo.render(resultado, True, (255, 255, 0))
+            tela.blit(texto_resultado, (tela.get_width() // 2 - texto_resultado.get_width() // 2, 520))
+
+            # Aguarda 2 segundos antes de passar para próxima rodada
+            if time.time() - tempo_resultado > 2:
+                # Agora manipula as cartas após mostrar resultado
+                if vencedor_rodada == "jogador":
+                    jogo.jogador.cartas.append(jogo.cpu.cartas.pop(0))
+                    jogo.jogador.cartas.append(jogo.jogador.cartas.pop(0))
+                elif vencedor_rodada == "cpu":
+                    jogo.cpu.cartas.append(jogo.jogador.cartas.pop(0))
+                    jogo.cpu.cartas.append(jogo.cpu.cartas.pop(0))
+                else:  # empate
+                    jogo.jogador.cartas.append(jogo.jogador.cartas.pop(0))
+                    jogo.cpu.cartas.append(jogo.cpu.cartas.pop(0))
+
+                mostrar_cpu = False
+                resultado = ""
+                vencedor_rodada = None
+                botoes = desenhar_carta(jogo.jogador.cartas[0], 80, 100)
+        else:
+            botoes = desenhar_carta(carta_jogador, 80, 100)
+
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
-                rodando = False
-
-        tela.fill((20, 20, 20))
-
-        if carta_topo:
-            pygame.draw.rect(tela, (0, 0, 255), (300, 200, 400, 300), border_radius=15)
-            nome = fonte.render(f"Nome: {carta_topo.nome}", True, (255, 255, 255))
-            classe = fonte.render(f"Classe: {carta_topo.classe}", True, (255, 255, 255))
-            vel = fonte.render(f"Velocidade: {carta_topo.velocidade}", True, (255, 255, 255))
-            pot = fonte.render(f"Potência: {carta_topo.potencia}", True, (255, 255, 255))
-            eco = fonte.render(f"Economia: {carta_topo.economia}", True, (255, 255, 255))
-            fre = fonte.render(f"Frenagem: {carta_topo.frenagem}", True, (255, 255, 255))
-
-            tela.blit(nome, (320, 220))
-            tela.blit(classe, (320, 260))
-            tela.blit(vel, (320, 300))
-            tela.blit(pot, (320, 340))
-            tela.blit(eco, (320, 380))
-            tela.blit(fre, (320, 420))
+                pygame.quit()
+                sys.exit()
+            elif evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1 and not mostrar_cpu:
+                for botao, atributo in botoes:
+                    if botao.collidepoint(evento.pos):
+                        vencedor_rodada, resultado = comparar_atributo(atributo)
+                        mostrar_cpu = True
+                        tempo_resultado = time.time()
 
         pygame.display.update()
+        clock.tick(60)
