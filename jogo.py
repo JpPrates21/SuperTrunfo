@@ -2,13 +2,14 @@ import json
 import random
 
 class Carta:
-    def __init__(self, nome, classe, velocidade, potencia, economia, frenagem):
+    def __init__(self, nome, classe, velocidade, potencia, economia, frenagem, super_trunfo=False):
         self.nome = nome
         self.classe = classe
         self.velocidade = velocidade
         self.potencia = potencia
         self.economia = economia
         self.frenagem = frenagem
+        self.super_trunfo = super_trunfo
 
 class Jogador:
     def __init__(self, nome):
@@ -25,7 +26,12 @@ class Jogo:
     def carregar_cartas(self):
         with open("cartas.json", "r", encoding="utf-8") as arquivo:
             dados = json.load(arquivo)
-        self.cartas_disponiveis = [Carta(**carta) for carta in dados]
+        cartas = []
+        for carta in dados:
+            # Define super_trunfo True se a classe for "Super Trunfo" (ignora maiúsculas)
+            carta['super_trunfo'] = (carta.get('classe', '').lower() == "super trunfo")
+            cartas.append(Carta(**carta))
+        self.cartas_disponiveis = cartas
 
     def distribuir_cartas(self):
         if self.dificuldade == "fácil":
@@ -47,7 +53,7 @@ class Jogo:
         self.carregar_cartas()
         self.distribuir_cartas()
 
-    # Log simples no terminal
+        # Log simples no terminal
         print(f"Cartas do {self.jogador.nome}:")
         for carta in self.jogador.cartas:
             print(f"- {carta.nome} ({carta.classe})")

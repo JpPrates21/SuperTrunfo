@@ -9,7 +9,18 @@ class Baralho:
     def carregar_cartas(self, caminho):
         with open(caminho, "r", encoding="utf-8") as arquivo:
             dados = json.load(arquivo)
-            return [Carta(**item) for item in dados]
+            return [
+                Carta(
+                    item['nome'],
+                    item['classe'],
+                    item['velocidade'],
+                    item['potencia'],
+                    item['economia'],
+                    item['frenagem'],
+                    item.get('super_trunfo', False)
+                )
+                for item in dados
+            ]
 
     def embaralhar(self):
         random.shuffle(self.cartas)

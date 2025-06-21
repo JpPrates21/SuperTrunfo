@@ -1,11 +1,12 @@
 [
   {
-    "nome": "Fusca",
-    "classe": "Super Trunfo",
-    "velocidade": 99,
-    "potencia": 99,
-    "economia": 99,
-    "frenagem": 99
+  "nome": "Fusca",
+  "classe": "Super Trunfo",
+  "velocidade": 99,
+  "potencia": 99,
+  "economia": 99,
+  "frenagem": 99,
+  "super_trunfo": true
   },
   {
     "nome": "Falcão Veloz",

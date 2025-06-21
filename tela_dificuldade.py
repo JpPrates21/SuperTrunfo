@@ -1,5 +1,3 @@
-# tela_dificuldade.py
-
 import pygame
 import sys
 from jogo import Jogo
