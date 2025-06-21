@@ -4,7 +4,7 @@ import pygame
 import sys
 import time
 
-# A função agora aceita 'caminho_fundo' como um novo argumento
+
 def mostrar_tela_jogo(tela, jogo, caminho_fundo):
     pygame.font.init()
     fonte_titulo = pygame.font.Font(None, 60)
@@ -19,7 +19,7 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
     clock = pygame.time.Clock()
 
     def desenhar_carta(carta, x, y, destaque=False):
-        # ... (o resto da sua função desenhar_carta permanece o mesmo)
+    
         cor_fundo = (255, 255, 255) if not destaque else (230, 255, 230)
         pygame.draw.rect(tela, cor_fundo, (x, y, 300, 400))
         pygame.draw.rect(tela, (0, 0, 0), (x, y, 300, 400), 4)
@@ -54,7 +54,7 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
 
 
     def desenhar_placar():
-        # ... (o resto da sua função desenhar_placar permanece o mesmo)
+       
         texto = fonte_texto.render(
             f"Cartas - Você: {len(jogo.jogador.cartas)}  |  CPU: {len(jogo.cpu.cartas)}",
             True, (255, 255, 255)
@@ -63,7 +63,7 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
 
 
     def comparar_atributo(attr):
-        # ... (o resto da sua função comparar_atributo permanece o mesmo)
+       
         carta_jogador = jogo.jogador.cartas[0]
         carta_cpu = jogo.cpu.cartas[0]
 
