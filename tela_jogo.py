@@ -1,15 +1,25 @@
+# tela_jogo.py
+
 import pygame
 import sys
 import time
 
-def mostrar_tela_jogo(tela, jogo):
+# A função agora aceita 'caminho_fundo' como um novo argumento
+def mostrar_tela_jogo(tela, jogo, caminho_fundo):
     pygame.font.init()
     fonte_titulo = pygame.font.Font(None, 60)
     fonte_texto = pygame.font.Font(None, 36)
 
+    # Carregar o fundo animado específico da dificuldade
+    fundo_jogo = pygame.image.load(caminho_fundo).convert()
+    x1 = 0
+    x2 = fundo_jogo.get_width()
+    velocidade = 2  # Ajuste a velocidade conforme necessário
+
     clock = pygame.time.Clock()
 
     def desenhar_carta(carta, x, y, destaque=False):
+        # ... (o resto da sua função desenhar_carta permanece o mesmo)
         cor_fundo = (255, 255, 255) if not destaque else (230, 255, 230)
         pygame.draw.rect(tela, cor_fundo, (x, y, 300, 400))
         pygame.draw.rect(tela, (0, 0, 0), (x, y, 300, 400), 4)
@@ -42,14 +52,18 @@ def mostrar_tela_jogo(tela, jogo):
 
         return botoes
 
+
     def desenhar_placar():
+        # ... (o resto da sua função desenhar_placar permanece o mesmo)
         texto = fonte_texto.render(
             f"Cartas - Você: {len(jogo.jogador.cartas)}  |  CPU: {len(jogo.cpu.cartas)}",
             True, (255, 255, 255)
         )
         tela.blit(texto, (tela.get_width() // 2 - texto.get_width() // 2, 20))
 
+
     def comparar_atributo(attr):
+        # ... (o resto da sua função comparar_atributo permanece o mesmo)
         carta_jogador = jogo.jogador.cartas[0]
         carta_cpu = jogo.cpu.cartas[0]
 
@@ -70,6 +84,7 @@ def mostrar_tela_jogo(tela, jogo):
 
         return vencedor, resultado
 
+
     mostrar_cpu = False
     resultado = ""
     tempo_resultado = 0
@@ -77,7 +92,17 @@ def mostrar_tela_jogo(tela, jogo):
     botoes = []
 
     while True:
-        tela.fill((30, 30, 30))
+        # Movimento do fundo animado
+        x1 -= velocidade
+        x2 -= velocidade
+        if x1 <= -fundo_jogo.get_width():
+            x1 = x2 + fundo_jogo.get_width()
+        if x2 <= -fundo_jogo.get_width():
+            x2 = x1 + fundo_jogo.get_width()
+
+        # Desenha o fundo animado
+        tela.blit(fundo_jogo, (x1, 0))
+        tela.blit(fundo_jogo, (x2, 0))
 
         # Checa se acabou o jogo
         if len(jogo.jogador.cartas) == 0 or len(jogo.cpu.cartas) == 0:
@@ -86,7 +111,7 @@ def mostrar_tela_jogo(tela, jogo):
             tela.blit(texto, (tela.get_width() // 2 - texto.get_width() // 2, 200))
             pygame.display.update()
             pygame.time.delay(3000)
-            return  # Encerra a função e volta para a tela anterior
+            return
 
         desenhar_placar()
 

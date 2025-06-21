@@ -1,3 +1,5 @@
+# tela_dificuldade.py
+
 import pygame
 import sys
 from jogo import Jogo
@@ -30,6 +32,13 @@ def mostrar_tela_dificuldade(tela):
     def cor_hover(botao, cor_normal, cor_hover):
         return cor_hover if botao.collidepoint(pygame.mouse.get_pos()) else cor_normal
 
+    # Função para iniciar o jogo com a dificuldade e o fundo corretos
+    def iniciar_jogo(dificuldade, caminho_fundo):
+        som_clique.play()
+        jogo = Jogo(dificuldade)
+        jogo.iniciar()
+        mostrar_tela_jogo(tela, jogo, caminho_fundo) # Passa o caminho do fundo
+
     while True:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
@@ -37,22 +46,16 @@ def mostrar_tela_dificuldade(tela):
                 sys.exit()
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if botao_facil.collidepoint(evento.pos):
-                    som_clique.play()
-                    jogo = Jogo("fácil")
-                    jogo.iniciar()
-                    mostrar_tela_jogo(tela, jogo)
-                    return
+                    # Passe o caminho para o fundo fácil
+                    iniciar_jogo("fácil", "imagens/fundo_facil.png")
+                    return # Retorna para evitar que a tela continue rodando
                 elif botao_medio.collidepoint(evento.pos):
-                    som_clique.play()
-                    jogo = Jogo("média")
-                    jogo.iniciar()
-                    mostrar_tela_jogo(tela, jogo)
+                    # Passe o caminho para o fundo médio
+                    iniciar_jogo("média", "imagens/fundo_medio.png")
                     return
                 elif botao_dificil.collidepoint(evento.pos):
-                    som_clique.play()
-                    jogo = Jogo("difícil")
-                    jogo.iniciar()
-                    mostrar_tela_jogo(tela, jogo)
+                    # Passe o caminho para o fundo difícil
+                    iniciar_jogo("difícil", "imagens/fundo_dificil.png")
                     return
 
         x1 -= velocidade
