@@ -18,7 +18,7 @@ class Jogador:
 
 class Jogo:
     def __init__(self, dificuldade):
-        self.dificuldade = dificuldade.lower()  # minúsculas para consistência
+        self.dificuldade = dificuldade.lower()  
         self.jogador = Jogador("Você")
         self.cpu = Jogador("CPU")
         self.cartas_disponiveis = []
@@ -28,7 +28,7 @@ class Jogo:
             dados = json.load(arquivo)
         cartas = []
         for carta in dados:
-            # Define super_trunfo True se a classe for "Super Trunfo" (ignora maiúsculas)
+            # Define super_trunfo True se a classe for "Super Trunfo" 
             carta['super_trunfo'] = (carta.get('classe', '').lower() == "super trunfo")
             cartas.append(Carta(**carta))
         self.cartas_disponiveis = cartas

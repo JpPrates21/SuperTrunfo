@@ -4,7 +4,11 @@ import time
 
 def mostrar_tela_jogo(tela, jogo, caminho_fundo):
     pygame.font.init()
-    fonte_titulo = pygame.font.Font(None, 60)
+    # Fontes personalizadas para título e placar
+    fonte_titulo = pygame.font.Font("fontes/Pixelscapes.ttf", 80)
+    fonte_placar = pygame.font.Font("fontes/Pixelon.otf", 40)
+    # Fontes padrão para cartas
+    fonte_nome = pygame.font.Font(None, 60)
     fonte_texto = pygame.font.Font(None, 36)
 
     fundo_jogo = pygame.image.load(caminho_fundo).convert()
@@ -19,7 +23,7 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
         pygame.draw.rect(tela, cor_fundo, (x, y, 300, 400))
         pygame.draw.rect(tela, (0, 0, 0), (x, y, 300, 400), 4)
 
-        nome = fonte_titulo.render(carta.nome, True, (0, 0, 0))
+        nome = fonte_nome.render(carta.nome, True, (0, 0, 0))
         classe = fonte_texto.render(f"Classe: {carta.classe}", True, (50, 50, 50))
         tela.blit(nome, (x + 20, y + 20))
         tela.blit(classe, (x + 20, y + 70))
@@ -47,7 +51,7 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
         return botoes
 
     def desenhar_placar():
-        texto = fonte_texto.render(
+        texto = fonte_placar.render(
             f"Cartas - Você: {len(jogo.jogador.cartas)}  |  CPU: {len(jogo.cpu.cartas)}",
             True, (255, 255, 255)
         )
@@ -60,23 +64,21 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
 
         # Regras do Super Trunfo e Classe A
         if carta_jogador.classe.upper() == "A" and carta_cpu.super_trunfo:
-            return "jogador", "Você venceu!"
+            return "jogador", "Voce venceu!"
         if carta_cpu.classe.upper() == "A" and carta_jogador.super_trunfo:
-            return "cpu", "Você perdeu!"
+            return "cpu", "Voce perdeu!"
 
         if carta_jogador.super_trunfo and carta_cpu.classe.upper() != "A":
-            return "jogador", "Você venceu!"
         if carta_cpu.super_trunfo and carta_jogador.classe.upper() != "A":
-            return "cpu", "Você perdeu!"
+            return "cpu", "Voce perdeu!"
 
-        # Comparação normal
         valor_jogador = getattr(carta_jogador, attr_key)
         valor_cpu = getattr(carta_cpu, attr_key)
 
         if valor_jogador > valor_cpu:
-            return "jogador", "Você venceu!"
+            return "jogador", "Voce venceu!"
         elif valor_jogador < valor_cpu:
-            return "cpu", "Você perdeu!"
+            return "cpu", "Voce perdeu!"
         else:
             return "empate", "Empate!"
 
@@ -97,7 +99,6 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
         tela.blit(fundo_jogo, (x1, 0))
         tela.blit(fundo_jogo, (x2, 0))
 
-        # Checar se o jogo acabou
         if len(jogo.jogador.cartas) == 0 or len(jogo.cpu.cartas) == 0:
             vencedor = "Você venceu o jogo!" if len(jogo.jogador.cartas) > len(jogo.cpu.cartas) else "CPU venceu o jogo!"
             texto = fonte_titulo.render(vencedor, True, (255, 255, 0))
@@ -111,7 +112,6 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
         carta_jogador = jogo.jogador.cartas[0]
 
         if mostrar_cpu:
-            # Mostrar cartas dos dois
             desenhar_carta(carta_jogador, 80, 100, destaque=True)
             carta_cpu = jogo.cpu.cartas[0]
             desenhar_carta(carta_cpu, tela.get_width() - 380, 100, destaque=True)
