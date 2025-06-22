@@ -1,66 +1,45 @@
 import json
 import random
-
-class Carta:
-    def __init__(self, nome, classe, velocidade, potencia, economia, frenagem, super_trunfo=False):
-        self.nome = nome
-        self.classe = classe
-        self.velocidade = velocidade
-        self.potencia = potencia
-        self.economia = economia
-        self.frenagem = frenagem
-        self.super_trunfo = super_trunfo
-
-class Jogador:
-    def __init__(self, nome):
-        self.nome = nome
-        self.cartas = []
+from carta import Carta
+from jogador import Jogador, JogadorCPU  
 
 class Jogo:
     def __init__(self, dificuldade):
-        self.dificuldade = dificuldade.lower()  
+        self.dificuldade = dificuldade.lower()
         self.jogador = Jogador("Você")
-        self.cpu = Jogador("CPU")
+        self.cpu = JogadorCPU("CPU")  # Usa JogadorCPU para CPU
         self.cartas_disponiveis = []
 
-    def carregar_cartas(self):
-        with open("cartas.json", "r", encoding="utf-8") as arquivo:
+    def carregar_cartas(self, caminho_arquivo="cartas.json"):
+        with open(caminho_arquivo, "r", encoding="utf-8") as arquivo:
             dados = json.load(arquivo)
         cartas = []
         for carta in dados:
-            # Define super_trunfo True se a classe for "Super Trunfo" 
             carta['super_trunfo'] = (carta.get('classe', '').lower() == "super trunfo")
             cartas.append(Carta(**carta))
         self.cartas_disponiveis = cartas
 
     def distribuir_cartas(self):
         if self.dificuldade == "fácil":
-            qtd_voce = 13
-            qtd_cpu = 7
+            qtd_voce, qtd_cpu = 13, 7
         elif self.dificuldade == "média":
-            qtd_voce = 10
-            qtd_cpu = 10
-        else:  # difícil
-            qtd_voce = 7
-            qtd_cpu = 13
+            qtd_voce, qtd_cpu = 10, 10
+        else:
+            qtd_voce, qtd_cpu = 19, 1
 
-        total_cartas = qtd_voce + qtd_cpu
-        cartas_sorteadas = random.sample(self.cartas_disponiveis, total_cartas)
-        self.jogador.cartas = cartas_sorteadas[:qtd_voce]
-        self.cpu.cartas = cartas_sorteadas[qtd_voce:]
+        total = qtd_voce + qtd_cpu
+        sorteadas = random.sample(self.cartas_disponiveis, total)
+        self.jogador.receber_cartas(sorteadas[:qtd_voce])
+        self.cpu.receber_cartas(sorteadas[qtd_voce:])
 
     def iniciar(self):
         self.carregar_cartas()
         self.distribuir_cartas()
 
-        # Log simples no terminal
         print(f"Cartas do {self.jogador.nome}:")
-        for carta in self.jogador.cartas:
-            print(f"- {carta.nome} ({carta.classe})")
+        self.jogador.mostrar_mao()
 
         print(f"\nCartas do {self.cpu.nome}:")
-        for carta in self.cpu.cartas:
-            print(f"- {carta.nome} ({carta.classe})")
+        self.cpu.mostrar_mao()
 
-        # Retorna a carta do topo do jogador para exibição inicial
-        return self.jogador.cartas[0] if self.jogador.cartas else None
+        return self.jogador.mao[0] if self.jogador.mao else None

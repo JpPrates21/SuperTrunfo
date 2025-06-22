@@ -9,3 +9,18 @@ class Jogador:
     def mostrar_mao(self):
         for carta in self.mao:
             print(f"- {carta}")
+
+    def tem_cartas(self):
+        return len(self.mao) > 0
+
+
+class JogadorCPU(Jogador):
+    def escolher_melhor_atributo(self, carta):
+        atributos = {
+            'velocidade': carta.velocidade,
+            'potencia': carta.potencia,
+            'economia': carta.economia,
+            'frenagem': carta.frenagem
+        }
+        melhor = max(atributos, key=atributos.get)
+        return melhor
