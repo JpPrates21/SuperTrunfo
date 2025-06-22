@@ -52,7 +52,7 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
 
     def desenhar_placar():
         texto = fonte_placar.render(
-            f"Cartas - Você: {len(jogo.jogador.cartas)}  |  CPU: {len(jogo.cpu.cartas)}",
+            f"Você: {len(jogo.jogador.cartas)}  |  CPU: {len(jogo.cpu.cartas)}",
             True, (255, 255, 255)
         )
         tela.blit(texto, (tela.get_width() // 2 - texto.get_width() // 2, 20))

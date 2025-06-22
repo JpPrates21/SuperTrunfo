@@ -1,7 +1,7 @@
 import pygame
 import sys
 from jogo import Jogo
-from tela_jogo import mostrar_tela_jogo  # Importa a tela que mostra o jogo
+from tela_jogo import mostrar_tela_jogo 
 
 def mostrar_tela_dificuldade(tela):
     pygame.mixer.init()
@@ -45,15 +45,15 @@ def mostrar_tela_dificuldade(tela):
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if botao_facil.collidepoint(evento.pos):
                     # Passe o caminho para o fundo fácil
-                    iniciar_jogo("fácil", "imagens/fundo_facil.png")
+                    iniciar_jogo("fácil", "imagens/fundo_facil2.png")
                     return # Retorna para evitar que a tela continue rodando
                 elif botao_medio.collidepoint(evento.pos):
                     # Passe o caminho para o fundo médio
-                    iniciar_jogo("média", "imagens/fundo_medio.png")
+                    iniciar_jogo("média", "imagens/fundo_medio2.png")
                     return
                 elif botao_dificil.collidepoint(evento.pos):
                     # Passe o caminho para o fundo difícil
-                    iniciar_jogo("difícil", "imagens/fundo_dificil.png")
+                    iniciar_jogo("difícil", "imagens/fundo_dificil2.png")
                     return
 
         x1 -= velocidade
