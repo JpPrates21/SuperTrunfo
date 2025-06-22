@@ -69,6 +69,7 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
             return "cpu", "Voce perdeu!"
 
         if carta_jogador.super_trunfo and carta_cpu.classe.upper() != "A":
+            return "jogador", "Voce venceu!"
         if carta_cpu.super_trunfo and carta_jogador.classe.upper() != "A":
             return "cpu", "Voce perdeu!"
 
@@ -119,20 +120,14 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
             texto_resultado = fonte_titulo.render(resultado, True, (255, 255, 0))
             tela.blit(texto_resultado, (tela.get_width() // 2 - texto_resultado.get_width() // 2, 520))
 
-            # Espera 2 segundos para continuar o jogo
             if time.time() - tempo_resultado > 2:
                 if vencedor_rodada == "jogador":
-                    # Jogador ganha a carta da CPU
                     jogo.jogador.cartas.append(jogo.cpu.cartas.pop(0))
-                    # Move a carta do jogador para o fim da pilha
                     jogo.jogador.cartas.append(jogo.jogador.cartas.pop(0))
                 elif vencedor_rodada == "cpu":
-                    # CPU ganha a carta do jogador
                     jogo.cpu.cartas.append(jogo.jogador.cartas.pop(0))
-                    # Move a carta da CPU para o fim da pilha
                     jogo.cpu.cartas.append(jogo.cpu.cartas.pop(0))
                 else:
-                    # Empate: cartas voltam para o fim da mesma pilha
                     jogo.jogador.cartas.append(jogo.jogador.cartas.pop(0))
                     jogo.cpu.cartas.append(jogo.cpu.cartas.pop(0))
 
