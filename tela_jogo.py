@@ -18,7 +18,7 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo, dificuldade):
     if dificuldade == "fácil":
         COR_PRINCIPAL = (0, 200, 0)
     elif dificuldade == "média":
-        COR_PRINCIPAL = (100, 149, 237)
+        COR_PRINCIPAL = (0, 100, 255)
     else:
         COR_PRINCIPAL = (255, 255, 0)
         

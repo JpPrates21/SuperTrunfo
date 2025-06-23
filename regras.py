@@ -29,7 +29,8 @@ def mostrar_tela_regras(tela):
         "1. Cada jogador recebe cartas com atributos.",
         "2. Um jogador escolhe um atributo para competir.",
         "3. A carta com o maior valor vence a rodada.",
-        "4. O jogo continua até que um jogador fique com todas as cartas.",
+        "4. A carta SUPERTRUNFO ganha de todas, menos das cartas classe A",
+        "5. O jogo continua até que um jogador fique com todas as cartas.",
         "",
         "Clique em VOLTAR para retornar ao menu."
     ]
