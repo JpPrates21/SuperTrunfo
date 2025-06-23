@@ -9,7 +9,7 @@
   "super_trunfo": true
   },
   {
-    "nome": "Falcão Veloz",
+    "nome": "Lamborghini Aventador",
     "classe": "A",
     "velocidade": 95,
     "potencia": 90,
@@ -17,7 +17,7 @@
     "frenagem": 80
   },
   {
-    "nome": "Titã Turbo",
+    "nome": "Ferrari 458",
     "classe": "A",
     "velocidade": 92,
     "potencia": 93,
@@ -25,7 +25,7 @@
     "frenagem": 78
   },
   {
-    "nome": "Relâmpago X",
+    "nome": "Mclaren P1",
     "classe": "A",
     "velocidade": 98,
     "potencia": 95,
@@ -33,7 +33,7 @@
     "frenagem": 75
   },
   {
-    "nome": "Tempestade",
+    "nome": "Porsche 911",
     "classe": "A",
     "velocidade": 90,
     "potencia": 88,
@@ -41,7 +41,7 @@
     "frenagem": 82
   },
   {
-    "nome": "Eco Runner",
+    "nome": "BMW M3",
     "classe": "B",
     "velocidade": 72,
     "potencia": 60,
@@ -49,7 +49,7 @@
     "frenagem": 82
   },
   {
-    "nome": "Vortex V2",
+    "nome": "Mercedes C63",
     "classe": "B",
     "velocidade": 85,
     "potencia": 82,
@@ -57,7 +57,7 @@
     "frenagem": 70
   },
   {
-    "nome": "Trovão Azul",
+    "nome": "Audi RS6",
     "classe": "B",
     "velocidade": 84,
     "potencia": 80,
@@ -65,7 +65,7 @@
     "frenagem": 72
   },
   {
-    "nome": "Shadow GT",
+    "nome": "Ford Mustang",
     "classe": "B",
     "velocidade": 87,
     "potencia": 83,
@@ -73,7 +73,7 @@
     "frenagem": 74
   },
   {
-    "nome": "Ciclone Z",
+    "nome": "Corvette",
     "classe": "B",
     "velocidade": 82,
     "potencia": 78,
@@ -81,7 +81,7 @@
     "frenagem": 80
   },
   {
-    "nome": "Inferno R",
+    "nome": "Golf GTI",
     "classe": "C",
     "velocidade": 90,
     "potencia": 89,
@@ -89,7 +89,7 @@
     "frenagem": 60
   },
   {
-    "nome": "Neon Speed",
+    "nome": "208 GT",
     "classe": "C",
     "velocidade": 80,
     "potencia": 75,
@@ -97,7 +97,7 @@
     "frenagem": 68
   },
   {
-    "nome": "Corcel Turbo",
+    "nome": "Sandero RS",
     "classe": "C",
     "velocidade": 78,
     "potencia": 72,
@@ -105,7 +105,7 @@
     "frenagem": 65
   },
   {
-    "nome": "Raio Urbano",
+    "nome": "Punto Tjet",
     "classe": "C",
     "velocidade": 79,
     "potencia": 70,
@@ -113,7 +113,7 @@
     "frenagem": 67
   },
   {
-    "nome": "Asfalto Veloz",
+    "nome": "Audi A3",
     "classe": "C",
     "velocidade": 81,
     "potencia": 73,
@@ -121,7 +121,7 @@
     "frenagem": 66
   },
   {
-    "nome": "Trator-X",
+    "nome": "Uno",
     "classe": "D",
     "velocidade": 50,
     "potencia": 65,
@@ -129,7 +129,7 @@
     "frenagem": 40
   },
   {
-    "nome": "Camaleão 4x4",
+    "nome": "Palio",
     "classe": "D",
     "velocidade": 58,
     "potencia": 68,
@@ -137,7 +137,7 @@
     "frenagem": 45
   },
   {
-    "nome": "Mini Van Z",
+    "nome": "Kombi",
     "classe": "D",
     "velocidade": 55,
     "potencia": 60,
@@ -145,7 +145,7 @@
     "frenagem": 50
   },
   {
-    "nome": "Carga Pesada",
+    "nome": "Scania 113h",
     "classe": "D",
     "velocidade": 45,
     "potencia": 70,
@@ -153,7 +153,7 @@
     "frenagem": 38
   },
   {
-    "nome": "Moto Urbana",
+    "nome": "Cg 125",
     "classe": "D",
     "velocidade": 62,
     "potencia": 58,
