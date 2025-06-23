@@ -10,8 +10,6 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo, dificuldade):
     fonte_texto = pygame.font.Font(None, 36)
     fonte_botoes_jogo = pygame.font.Font(None, 28)
     
-    # --- ALTERAÇÃO DE POSIÇÃO DOS BOTÕES ---
-    # Ambos os botões foram movidos para a parte inferior da tela
     largura_tela = tela.get_width()
     altura_tela = tela.get_height()
     botao_voltar_dificuldade = pygame.Rect(largura_tela - 240, altura_tela - 50, 120, 40)
@@ -32,7 +30,7 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo, dificuldade):
     velocidade = 2
     clock = pygame.time.Clock()
 
-    # Estado de pause (continua o mesmo)
+    # Estado de pause 
     jogo_pausado = False
 
     def desenhar_carta(carta, x, y, destaque=False):
@@ -58,7 +56,7 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo, dificuldade):
         return botoes
 
     def desenhar_placar():
-        # Placar movido de volta para o centro do topo
+      
         texto = fonte_placar.render(f"Você: {len(jogo.jogador.mao)}   |   CPU: {len(jogo.cpu.mao)}", True, COR_PRINCIPAL)
         tela.blit(texto, (tela.get_width() // 2 - texto.get_width() // 2, 20))
 
@@ -87,12 +85,9 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo, dificuldade):
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT: pygame.quit(), sys.exit()
             if evento.type == pygame.MOUSEBUTTONDOWN:
-                # --- LÓGICA DE PAUSE SIMPLIFICADA ---
-                # Apenas inverte o estado da variável 'jogo_pausado'
                 if botao_pause.collidepoint(evento.pos):
                     jogo_pausado = not jogo_pausado
                 
-                # O botão de voltar continua funcionando da mesma forma
                 elif botao_voltar_dificuldade.collidepoint(evento.pos):
                     return # Volta para a tela de dificuldade
                 
@@ -106,7 +101,6 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo, dificuldade):
                                 vencedor_rodada, resultado = comparar_atributo(atributo, "jogador")
                             mostrar_cpu, tempo_resultado, vez_cpu = True, time.time(), (vencedor_rodada == "cpu")
 
-        # A lógica do jogo (movimento e timers) só roda se NÃO estiver pausado
         if not jogo_pausado:
             x1 -= velocidade
             x2 -= velocidade
@@ -126,7 +120,6 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo, dificuldade):
 
         desenhar_placar()
         
-        # Desenha os botões na nova posição (embaixo)
         pygame.draw.rect(tela, (0, 0, 200), botao_voltar_dificuldade)
         texto_btn_voltar = fonte_botoes_jogo.render("VOLTAR", True, (255, 255, 255))
         tela.blit(texto_btn_voltar, (botao_voltar_dificuldade.centerx - texto_btn_voltar.get_width() // 2, botao_voltar_dificuldade.centery - texto_btn_voltar.get_height() // 2))
@@ -149,8 +142,7 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo, dificuldade):
             desenhar_carta(jogo.cpu.mao[0], tela.get_width() - 380, 100, destaque=True)
             texto_resultado = fonte_texto.render(resultado, True, COR_PRINCIPAL)
             tela.blit(texto_resultado, (tela.get_width() // 2 - texto_resultado.get_width() // 2, 520))
-            
-            # O timer do resultado também só avança se o jogo NÃO estiver pausado
+        
             if not jogo_pausado and time.time() - tempo_resultado > 3:
                 if vencedor_rodada == "jogador":
                     jogo.jogador.mao.append(jogo.cpu.mao.pop(0))
@@ -176,7 +168,7 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo, dificuldade):
             else:
                 botoes = desenhar_carta(jogo.jogador.mao[0], 80, 100)
 
-        # Se o jogo estiver pausado, mostra um texto grande na tela
+        # texto quando estiver pausado
         if jogo_pausado:
             texto_grande_pause = fonte_titulo.render("PAUSADO", True, (255, 255, 255))
             # Escurece a tela para dar destaque ao texto
