@@ -19,16 +19,21 @@ class Jogo:
             cartas.append(Carta(**carta))
         self.cartas_disponiveis = cartas
 
-    def distribuir_cartas(self):
+    def _calcular_distribuicao(self):
         if self.dificuldade == "fácil":
-            qtd_voce, qtd_cpu = 13, 7
+            return 13, 7
         elif self.dificuldade == "média":
-            qtd_voce, qtd_cpu = 10, 10
-        else:
-            qtd_voce, qtd_cpu = 7, 13
+            return 10, 10
+        else:  
+            return 7, 13
 
+    def _sortear_cartas(self, total):
+        return random.sample(self.cartas_disponiveis, total)
+
+    def distribuir_cartas(self):
+        qtd_voce, qtd_cpu = self._calcular_distribuicao()
         total = qtd_voce + qtd_cpu
-        sorteadas = random.sample(self.cartas_disponiveis, total)
+        sorteadas = self._sortear_cartas(total)
         self.jogador.receber_cartas(sorteadas[:qtd_voce])
         self.cpu.receber_cartas(sorteadas[qtd_voce:])
 

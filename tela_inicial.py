@@ -79,3 +79,4 @@ def mostrar_tela_inicial(tela):
 
         pygame.display.update()
         clock.tick(60)  # FPS
+    
