@@ -56,7 +56,6 @@ def mostrar_tela_dificuldade(tela):
                 elif botao_dificil.collidepoint(evento.pos):
                     voltar_para_menu = iniciar_jogo("difícil", "imagens/fundo_dificil2.png")
 
-                # --- ALTERAÇÃO AQUI ---
                 # Se a função iniciar_jogo retornar True, saia da tela de dificuldade
                 if voltar_para_menu:
                     return
