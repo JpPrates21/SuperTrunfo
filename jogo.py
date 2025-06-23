@@ -25,7 +25,7 @@ class Jogo:
         elif self.dificuldade == "média":
             qtd_voce, qtd_cpu = 10, 10
         else:
-            qtd_voce, qtd_cpu = 19, 1
+            qtd_voce, qtd_cpu = 7, 13
 
         total = qtd_voce + qtd_cpu
         sorteadas = random.sample(self.cartas_disponiveis, total)

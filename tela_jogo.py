@@ -55,51 +55,50 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
         )
         tela.blit(texto, (tela.get_width() // 2 - texto.get_width() // 2, 20))
 
-    def comparar_atributo(attr):
+    def comparar_atributo(attr, quem_escolheu):
         carta_jogador = jogo.jogador.mao[0]
         carta_cpu = jogo.cpu.mao[0]
         attr_key = attr.lower().replace("ç", "c").replace("ã", "a").replace("é", "e").replace("í", "i")
 
-        # Regras do Super Trunfo e Classe A
         if carta_jogador.classe.upper() == "A" and carta_cpu.super_trunfo:
-            return "jogador", "Voce venceu!"
+            return "jogador", "Você venceu o SUPERTRUNFO!"
         if carta_cpu.classe.upper() == "A" and carta_jogador.super_trunfo:
-            return "cpu", "Voce perdeu!"
+            return "cpu", "Você perdeu com o SUPERTRUNFO!"
 
         if carta_jogador.super_trunfo and carta_cpu.classe.upper() != "A":
-            return "jogador", "Voce venceu!"
+            return "jogador", "Você venceu com o SUPERTRUNFO!"
         if carta_cpu.super_trunfo and carta_jogador.classe.upper() != "A":
-            return "cpu", "Voce perdeu!"
+            return "cpu", "Você perdeu para o SUPERTRUNFO!"
 
         valor_jogador = getattr(carta_jogador, attr_key)
         valor_cpu = getattr(carta_cpu, attr_key)
 
+        prefixo = f"{'CPU' if quem_escolheu == 'cpu' else 'Você'} escolheu {attr}: Você: {valor_jogador} | CPU: {valor_cpu} - "
+
         if valor_jogador > valor_cpu:
-            return "jogador", "Voce venceu!"
+            return "jogador", prefixo + "Você venceu!"
         elif valor_jogador < valor_cpu:
-            return "cpu", "Voce perdeu!"
+            return "cpu", prefixo + "CPU venceu!"
         else:
-            return "empate", "Empate!"
+            return "empate", prefixo + "Empate!"
 
     def cpu_escolher_melhor_atributo():
         carta_cpu = jogo.cpu.mao[0]
         atributos = {
-            "velocidade": carta_cpu.velocidade,
-            "potencia": carta_cpu.potencia,
-            "economia": carta_cpu.economia,
-            "frenagem": carta_cpu.frenagem
+            "Velocidade": carta_cpu.velocidade,
+            "Potencia": carta_cpu.potencia,
+            "Economia": carta_cpu.economia,
+            "Frenagem": carta_cpu.frenagem
         }
         melhor_atributo = max(atributos, key=atributos.get)
-        return melhor_atributo.capitalize()
+        return melhor_atributo
 
     mostrar_cpu = False
     resultado = ""
     tempo_resultado = 0
     vencedor_rodada = None
     botoes = []
-
-    # Define quem começa a vez — True para CPU, False para jogador
-    vez_cpu = False  
+    vez_cpu = False
 
     while True:
         x1 -= velocidade
@@ -113,7 +112,7 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
         tela.blit(fundo_jogo, (x2, 0))
 
         if len(jogo.jogador.mao) == 0 or len(jogo.cpu.mao) == 0:
-            vencedor = "Voce venceu o jogo!" if len(jogo.jogador.mao) > len(jogo.cpu.mao) else "CPU venceu o jogo!"
+            vencedor = "Você venceu o jogo!" if len(jogo.jogador.mao) > len(jogo.cpu.mao) else "CPU venceu o jogo!"
             texto = fonte_titulo.render(vencedor, True, (255, 255, 0))
             tela.blit(texto, (tela.get_width() // 2 - texto.get_width() // 2, 200))
             pygame.display.update()
@@ -121,33 +120,27 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
             return
 
         desenhar_placar()
-
         carta_jogador = jogo.jogador.mao[0]
 
         if mostrar_cpu:
-            # Mostrar as cartas e o resultado
             desenhar_carta(carta_jogador, 80, 100, destaque=True)
             carta_cpu = jogo.cpu.mao[0]
             desenhar_carta(carta_cpu, tela.get_width() - 380, 100, destaque=True)
-
-            texto_resultado = fonte_titulo.render(resultado, True, (255, 255, 0))
+            texto_resultado = fonte_texto.render(resultado, True, (255, 255, 0))
             tela.blit(texto_resultado, (tela.get_width() // 2 - texto_resultado.get_width() // 2, 520))
 
-            # Espera 2 segundos antes de atualizar as cartas e mudar a vez
-            if time.time() - tempo_resultado > 2:
+            if time.time() - tempo_resultado > 3:
                 if vencedor_rodada == "jogador":
                     jogo.jogador.mao.append(jogo.cpu.mao.pop(0))
                     jogo.jogador.mao.append(jogo.jogador.mao.pop(0))
-                    vez_cpu = False  # vez para jogador
+                    vez_cpu = False
                 elif vencedor_rodada == "cpu":
                     jogo.cpu.mao.append(jogo.jogador.mao.pop(0))
                     jogo.cpu.mao.append(jogo.cpu.mao.pop(0))
-                    vez_cpu = True  # vez para CPU
+                    vez_cpu = True
                 else:
-                    # empate, cartas voltam para o fim da pilha
                     jogo.jogador.mao.append(jogo.jogador.mao.pop(0))
                     jogo.cpu.mao.append(jogo.cpu.mao.pop(0))
-                    # vez não muda, mantém quem jogava antes
 
                 mostrar_cpu = False
                 resultado = ""
@@ -156,32 +149,33 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo):
 
         else:
             if vez_cpu:
-                # Vez da CPU: escolhe atributo automaticamente
-                atributo_cpu = cpu_escolher_melhor_atributo()
-                vencedor_rodada, resultado = comparar_atributo(atributo_cpu)
-                mostrar_cpu = True
-                tempo_resultado = time.time()
-                # CPU acabou de jogar, vai esperar o resultado e manter a vez ou passar depois do update
+                desenhar_carta(carta_jogador, 80, 100)
+                botao_cpu = pygame.Rect(tela.get_width() // 2 - 150, 520, 300, 50)
+                pygame.draw.rect(tela, (100, 100, 255), botao_cpu)
+                pygame.draw.rect(tela, (0, 0, 0), botao_cpu, 3)
+                texto_botao = fonte_texto.render("Mostrar carta CPU", True, (255, 255, 255))
+                tela.blit(texto_botao, (botao_cpu.x + 40, botao_cpu.y + 10))
+                botoes = [(botao_cpu, "mostrar_cpu")]
             else:
-                # Vez do jogador: desenha os botões para o jogador escolher
                 botoes = desenhar_carta(carta_jogador, 80, 100)
 
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-
-            elif evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1 and not mostrar_cpu and not vez_cpu:
+            elif evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1 and not mostrar_cpu:
                 for botao, atributo in botoes:
                     if botao.collidepoint(evento.pos):
-                        vencedor_rodada, resultado = comparar_atributo(atributo)
-                        mostrar_cpu = True
-                        tempo_resultado = time.time()
-                        # Se o jogador perder, vez passa para CPU
-                        if vencedor_rodada == "cpu":
-                            vez_cpu = True
+                        if atributo == "mostrar_cpu":
+                            atributo_cpu = cpu_escolher_melhor_atributo()
+                            vencedor_rodada, resultado = comparar_atributo(atributo_cpu, "cpu")
+                            mostrar_cpu = True
+                            tempo_resultado = time.time()
                         else:
-                            vez_cpu = False
+                            vencedor_rodada, resultado = comparar_atributo(atributo, "jogador")
+                            mostrar_cpu = True
+                            tempo_resultado = time.time()
+                            vez_cpu = (vencedor_rodada == "cpu")
 
         pygame.display.update()
         clock.tick(60)
