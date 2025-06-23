@@ -30,12 +30,17 @@ def mostrar_tela_dificuldade(tela):
     def cor_hover(botao, cor_normal, cor_hover):
         return cor_hover if botao.collidepoint(pygame.mouse.get_pos()) else cor_normal
 
-    # Função para iniciar o jogo com a dificuldade e o fundo corretos
     def iniciar_jogo(dificuldade, caminho_fundo):
         som_clique.play()
         jogo = Jogo(dificuldade)
         jogo.iniciar()
-        mostrar_tela_jogo(tela, jogo, caminho_fundo) # Passa o caminho do fundo
+        # A função de jogo agora pode retornar um status
+        status = mostrar_tela_jogo(tela, jogo, caminho_fundo, dificuldade)
+        # Se o status for 'voltar_menu', nós retornamos para sair da tela de dificuldade
+        if status == 'voltar_menu':
+            return True # Sinaliza para voltar ao menu principal
+        return False # Permanece na tela de dificuldade
+
 
     while True:
         for evento in pygame.event.get():
@@ -43,17 +48,17 @@ def mostrar_tela_dificuldade(tela):
                 pygame.quit()
                 sys.exit()
             elif evento.type == pygame.MOUSEBUTTONDOWN:
+                voltar_para_menu = False
                 if botao_facil.collidepoint(evento.pos):
-                    # Passe o caminho para o fundo fácil
-                    iniciar_jogo("fácil", "imagens/fundo_facil2.png")
-                    return # Retorna para evitar que a tela continue rodando
+                    voltar_para_menu = iniciar_jogo("fácil", "imagens/fundo_facil2.png")
                 elif botao_medio.collidepoint(evento.pos):
-                    # Passe o caminho para o fundo médio
-                    iniciar_jogo("média", "imagens/fundo_medio2.png")
-                    return
+                    voltar_para_menu = iniciar_jogo("média", "imagens/fundo_medio2.png")
                 elif botao_dificil.collidepoint(evento.pos):
-                    # Passe o caminho para o fundo difícil
-                    iniciar_jogo("difícil", "imagens/fundo_dificil2.png")
+                    voltar_para_menu = iniciar_jogo("difícil", "imagens/fundo_dificil2.png")
+
+                # --- ALTERAÇÃO AQUI ---
+                # Se a função iniciar_jogo retornar True, saia da tela de dificuldade
+                if voltar_para_menu:
                     return
 
         x1 -= velocidade
