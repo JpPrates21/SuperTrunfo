@@ -14,7 +14,7 @@ def mostrar_tela_regras(tela):
     AZUL_CLARO = (100, 180, 255)
     AZUL_ESCURO = (0, 0, 128)
 
-    # Carregar fundo animado (imagem do céu)
+    # Fundo animado 
     ceu = pygame.image.load("imagens/tela_inicial.png").convert()
 
     # Fontes personalizadas
@@ -86,4 +86,4 @@ def mostrar_tela_regras(tela):
         tela.blit(texto_botao, (botao_voltar.x + 43, botao_voltar.y + 10))
 
         pygame.display.update()
-        clock.tick(60)  # FPS
+        clock.tick(60)  

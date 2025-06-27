@@ -7,7 +7,7 @@ class Jogo:
     def __init__(self, dificuldade):
         self.dificuldade = dificuldade.lower()
         self.jogador = Jogador("Você")
-        self.cpu = JogadorCPU("CPU")  # Usa JogadorCPU para CPU
+        self.cpu = JogadorCPU("CPU")  
         self.cartas_disponiveis = []
 
     def carregar_cartas(self, caminho_arquivo="cartas.json"):

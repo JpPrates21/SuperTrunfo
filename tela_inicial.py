@@ -9,7 +9,7 @@ def mostrar_tela_inicial(tela):
     som_clique = pygame.mixer.Sound("audios/SomClick.wav")
     som_clique.set_volume(0.4)
 
-    # Carregar a imagem do céu para o fundo animado (deve ser larga)
+    # Carregar a imagem do céu para o fundo animado 
     ceu = pygame.image.load("imagens/tela_inicial.png").convert()
 
     # Criar botões
@@ -24,7 +24,6 @@ def mostrar_tela_inicial(tela):
     fonte_titulo = pygame.font.Font("fontes/Pixelscapes.ttf", 80)
     texto_titulo = fonte_titulo.render("SUPERTRUNFO", True, (255, 255, 255))
 
-    # Variáveis para controle do fundo animado
     x1 = 0
     x2 = ceu.get_width()
     velocidade = 2 # Ajuste a velocidade do movimento do céu
@@ -78,5 +77,5 @@ def mostrar_tela_inicial(tela):
                                  botao_regras.centery - texto_regras.get_height() // 2))
 
         pygame.display.update()
-        clock.tick(60)  # FPS
+        clock.tick(60)  
     

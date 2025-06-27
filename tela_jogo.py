@@ -91,7 +91,7 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo, dificuldade):
                 elif botao_voltar_dificuldade.collidepoint(evento.pos):
                     return # Volta para a tela de dificuldade
                 
-                # Os cliques do jogo só funcionam se o jogo NÃO estiver pausado
+                # Os cliques do jogo só funcionam se o jogo não estiver pausado
                 if not jogo_pausado and not mostrar_cpu:
                     for botao, atributo in botoes:
                         if botao.collidepoint(evento.pos):
@@ -126,10 +126,10 @@ def mostrar_tela_jogo(tela, jogo, caminho_fundo, dificuldade):
 
         # Altera a cor e o texto do botão de pause de acordo com o estado
         if jogo_pausado:
-            cor_botao_pause = (0, 180, 0) # Verde para "Continuar"
+            cor_botao_pause = (0, 180, 0) 
             texto_do_botao = "CONTINUAR"
         else:
-            cor_botao_pause = (200, 0, 0) # Vermelho para "Pausar"
+            cor_botao_pause = (200, 0, 0) 
             texto_do_botao = "PAUSAR"
             
         pygame.draw.rect(tela, cor_botao_pause, botao_pause)
